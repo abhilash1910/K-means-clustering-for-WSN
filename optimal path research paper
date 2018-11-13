@@ -1,0 +1,322 @@
+Wireless Pers Commun (2017) 97:1401–1417 DOI 10.1007/s11277-017-4579-3
+
+
+An Optimal Data Gathering Method for Mobile Sinks in WSNs
+
+Ilkyu Ha1 • Mamurjon Djuraev2 • Byoungchul Ahn2
+
+
+
+
+
+Published online: 15 June 2017
+© The Author(s) 2017. This article is an open access publication
+
+
+Abstract In Wireless Sensor Networks (WSN), energy is one of the most important resources since each node collects, processes and transmits data to its base station. Most of the traditional works in WSNs are consisted of static nodes and one base station. Recently, some mobile data gathering methods are proposed to prolong the operation time of sensor networks. One or more mobile collectors are used to gather sensed data from sensor nodes at short transmission ranges. This paper presents to find optimal visiting points and data gathering path for a mobile sink within clusters. With defining an optimal clustering and data gathering path, this method improves the data collection performance as well as the network lifetime extension of sensor networks. The network lifetime is increased to 20% when sensor nodes are divided into from 4 clusters to 15 clusters.
+
+Keywords  Clustering  Clustered data gathering  Energy efficient  Mobile sink
+
+1	Introduction
+
+When Wireless Sensor Networks (WSNs) are deployed at areas of interest, they are generally composed of hundreds or thousands of sensor nodes. These devices perform three basic tasks: sample a physical quantity from the surrounding environment, process the acquired data, and send it to a sink node or a base station [1]. There are many examples
+
+
+& Byoungchul Ahn b.ahn@yu.ac.kr
+Ilkyu Ha ikha@kiu.kr
+Mamurjon Djuraev mamurjon@naver.com
+
+1 Department of Computer Engineering, Kyungil University, Gyeongsan, Gyeongbuk 38428, Korea
+2 Department of Computer Engineering, Yeungnam University, Gyeongsan, Gyeongbuk 38541, Korea
+ 
+
+such as structural health monitoring, military, some smart home applications, agriculture and wild animal observation and so on [2–4].
+In most cases sensor nodes are assumed to be static. Each node operates on limited battery power, where most of the energy is spent on data transmission and reception process. Battery power is an important issue for sensor nodes since it is difficult to replace batteries with new ones in large-scale networks. In direct transmission scheme, sensor nodes send their data to the base station directly. However, their battery power is quickly drained, when they transmit data over long distance. In multi-hop transmission, data are transmitted by one sensor node to a middle sensor node, and then data is relayed to the base station. When the sensing environment is large or a base station is far from the sensor area, most of the nodes need numerous hops to reach the base station. This re-transmission process causes extreme node depletion [5].
+To overcome unbalanced energy usage among the sensor nodes, clustering method is proposed [6]. LEACH is one of the most popular cluster-based routing protocols for WSNs. LEACH can minimize energy over consumption by grouping the sensor nodes into clusters to reduce the number of messages and also restrict the direct communication between the sensor nodes and the base station. However, LEACH does not consider residual energy of candidate nodes. Recently, mobile sinks have been proposed as a solution for data gathering in WSN to balance the energy consumption geographically among the sensors throughout the network and deal with isolated regions [7, 8]. Since a mobile sink is an external device to the WSNs, the power consumption for the movement and operation of the mobile sink does not affect the lifetime of WSNs. Periodically the mobile sink returns to the base station to upload collected data to process and recharge its battery-power to make next travel [9]. In above schemes, unfair energy usage among sensor nodes can be observed as one of shortcomings and it affects to network operations. It is necessary to decrease unfair energy consumption among the sensor nodes.
+This paper presents on the energy usage of sensor networks and to extend the network lifetime of the sensor nodes by utilizing the clustering and the travel path of a mobile sink. The mobile sink could be a mobile robot or a vehicle equipped with powerful batteries, long range transceivers, large memory units and GPS devices. Generally, data are collected at low rate and they are not time sensitive. The sensor nodes save their data in their memory and send them to the mobile sink when the mobile sink approaches nodes. As an expansion of some previous work in this area, the contributions of this work could be summarized as follows:
+•	We decide optimal visiting points and a data collection path for a mobile sink to manage wireless sensor networks efficiently in energy aspect.
+•	We use a center of each cluster as data gathering point. To find the optimal data gathering point and make clusters, K-means algorithm is used. It makes to decrease intra-cluster communications and to gain energy efficiency for sensor nodes.
+•	To minimize data gathering time, we select an optimal travel path for a mobile sink before every data gathering tour. To find the path, some solutions of MST (Minimum spanning tree), Euler cycle and Hamilton cycle are used to find an optimal path.
+The paper is organized as follows. In Sect. 2, several methods related to the proposed method are discussed. In Sect. 3, energy models used in this work and assumptions are discussed. Section 4 describes the proposed method. In this section, clustering and building efficient path for the mobile sink and data gathering in clusters are given in detail. Sim- ulation results and comparison to other works are given in Sect. 5. Finally, Sect. 6 con- cludes this work.
+ 
+
+2	Related Works
+
+A data MULE is proposed to collect data from the sensor nodes and to download them to the base station, called data Mobile Ubiquitous Local area network Extensions (MULEs) [7]. In MULEs, a mobile observer picks up data directly from sensor nodes, saves data in its buffer, and drops off data to wired access points. The movements of MULEs have been modeled as 2D random walk. However, the main drawback of the MULEs is increased data collecting latency since the mobile observer has to travel across transmission range of each sensor node in the network to collect data. Recently the mobility of the sink has conducted in some papers to improve performance of WSNs [10–14]. But some papers related to the proposed method are discussed below.
+Chen et al. [8] uses a mobile robot to collect data from isolated islands in multi-hop networks. This work also studies controlling the mobile robot and proposes three methods to move the mobile robot. Also warning messages are used to inform the mobile robot. While this approach gets data from portioned parts of WSNs, they may result long data gathering latency and data loss in large scale networks. Zhao et al. [15] present polling based data gathering using a mobile node and name it bounded relay hop mobile data gathering (BRH-MDG). They choose subsets of sensor nodes as polling points each subset aggregates local data from its affiliated nodes within a certain number of relay hops. Those polling points temporarily save data in their cache and upload them to the mobile collector when it arrives. To find a set of polling points, they formulate centralized and distributed algorithms. And also they prove its NP-hardness. In large scale networks, this approach finds a big number of polling points and decreases data latency. Buffer overflow problem occurs whenever the mobile collector visits late to polling points while these polling points cache data.
+Wang et al. [16] have studied mobile sink at the edge of the sensing field. The movement of the mobile sink is on clockwise or counter-clockwise. Afterward, the entire network is divided into equal clusters and in each part, cluster head is selected based on residual energy. They formulate a scheme to send data from a normal node to cluster head using multi-hop transmission. Cluster heads placed near the center of clusters consumes more energy than nodes close to the edge of the area. Data gathering tour is the perimeter of the sensing area and this affects long data latency. Wang et al. [17] proposes compet- itive clustering algorithm and uses a controllable mobile sink to gather data. The path of the mobile sink is built as straight line stopping points on it. In the predefined path, the mobile sink stops at scheduled park positions and receives data from cluster heads. Cluster heads send aggregated data to the mobile sink through adjacent node. In this method, a cluster head, far away from the mobile sink, affects negatively energy balance of network. Yuan et al. [18] proposes an energy-efficient mobile sink routing algorithm (EEMSRA)
+to prolong network lifetime. This paper uses the LEACH algorithm to cluster sensor nodes and a mobile sink for gathering data. The mobile sink decides to move next position based on average energy of each cluster and maximum distance to cluster heads from current position of the mobile sink. The mobile sink sends ‘Hello’ packet within cluster ID and time parameter to member nodes before visiting to a cluster. A cluster head receives data from its member nodes and sends them to the mobile sink. Cluster heads are also responsible to elect a new cluster head for next round based on residual energy of sensor nodes. This algorithm uses cluster heads to collect data within clusters and broadcasts REQ message to get the residual energy of clusters from cluster heads. And, every cluster head must reply with Eavg (average energy of cluster) message. These might be extra energy
+ 
+
+burden by nodes which are chosen as a cluster head. Nazir et al. [25] addresses hotspot problem and proposes a mobile sink based routing protocol (MSRP) to prolong network lifetime. In MSRP, the mobile sink moves in clustered sensor network to gather data from cluster heads in its neighborhood. While a mobile sink collecting data, it maintains information about residual energy of the cluster heads. Based on residual energy of cluster heads, mobile sink moves to cluster heads having higher energy. The hotspot problem is minimized as the mobile sink moves higher energy cluster heads. Other numerous tech- niques, such as multi-hop, virtual MIMO, public transportation marginal value theorem and heuristic algorithms are used for the case when clustering and mobile sink methods are applied to gather data in WSNs [19–24].
+
+
+3	Environment of Sensor Networks
+
+In this section, assumptions for energy model, a mobile sink and sensor nodes are explained for this work.
+
+	Energy Model
+
+To evaluate the performance of the proposed method, the radio model of LEACH is used to compare with the proposed method [6] and other studies. As defined in this model, there are two cases: free space and the multi-path fading channel. When the distance between a sending node and a receiving node is less than threshold value d0, free space model, d2 power loss, is used. Otherwise, multipath fading channel model, d4 power loss, is used. From two models above, we can calculate an amount of energy to send k-bit data to d distance, which is distance between a sending node and a receiving node [6]:
+. Eelec m k þ efs m k m d2;	d\d0
+ERXðkÞ ¼ Eelec m k	ð2Þ
+where d0 ¼	efs . ETX (k, d) is the energy usage of a transmitter which sends k-bit data to a
+receiver to d distance. ERX (k) is the energy consumption of a receiver node to receive k-bit data. Eelec is the energy consumption of wireless transceiver circuits. efs and emp define the energy consumption factor of amplification in two radio models. These values are given in below on simulation parameters of Table 1 at Sect. 5.
+
+	Mobile Sink
+
+The mobile sink moves along the predefined trajectory and collects data from sensor nodes in single hop. When it finishes data gathering on predefined points, it comes back to the base station and uploads gathered data to the base station. Velocity of the mobile sink is constant. Also the mobile sink is aware of the all sensor nodes location. The mobile sink is equipped with unlimited energy source, a powerful CPU with large memory, a long range transceiver and a GPS.
+ 
+
+Table  1  Simulation parameters	Parameter	Value
+Simulation area	250 m 9 250 m
+Number of sensors	100
+Speed of the mobile sink	5 m/s
+MAC protocol	802.11ad
+Channel model	Wireless channel
+Einit	1 J 
+Eelec	50 nj/bit
+efs	10 pj/bit/m2
+emp	0.0013 pj/bit/m4
+
+	Sensor Nodes
+
+All sensor nodes have the same limited energy source. When sensor nodes are out of energy they are defined as a dead node. And the base station and sensor nodes are fixed in position. Every sensor node is given ID number. The location information and ID of sensor nodes are obtained during the network deployment time. We assume that collected data are not time sensitive and they are saved in memory of sensor nodes. Sensor nodes send their data when a mobile sink visits them.
+
+
+4	Decision of Optimal Clusters and Data Gathering Paths
+
+To manage power efficiently, this paper uses a mobile sink and clustering. When the mobile sink is applied in WSNs, controlling and traveling efficient paths must be con- sidered. In this section, the optimal visiting points and data gathering path for the mobile sink are decided in the clusters.
+
+	Decision of Visiting Points
+
+After deployment of sensor nodes in the sensing area, they are divided into clusters. Clustering sensor nodes might decrease redundant data, reduce the number of inter-node communication by localizing data transmission within the clusters and decrease the overall amount of transmissions to the base station. In this work, sensor nodes communicate only with the mobile sink directly. To make clustering, K-means clustering algorithm is used [24]. Some conditions are considered for WSNs using the K-means algorithm. Clustering is performed by the mobile sink since it has enough computing and transmission power which does not affect the lifetime of sensor networks.
+The algorithm accepts two inputs: S = {s1, s2… sn} sensor nodes with location infor- mation and k number of clusters. The output is C = (C1, C2 … Ck) set of clusters with  input data partitioned among them. K-means algorithm is to group the sensor nodes into    k clusters and locates the centroid of each cluster. Such that all items in the same cluster are as similar to each other as possible. The distance measures are used to calculate similarity and dissimilarity. The distance is calculated by Euclidean distance formula in two dimensions. Each cluster has its centroid, which is the center point of the cluster as follows.
+ 
+
+1.	Choose k points randomly in the sensor area and make them as initial centers. At this point, some conditions are assumed when choosing random points. Initial points need to be chosen not outside of the sensor area. In some areas, the density of sensor nodes is high and nodes are very close to each other. In such regions, initial centers need to be chosen more.
+2.	Calculate and find the nearest center for each sensor node and assign it to the cluster associated with the nearest center. At this step, first clusters are built based on initial cluster points. The center of each cluster is updated based on the location of sensor nodes belongs to this cluster. Typically, the new center will be the average location point of all the sensor nodes location in the cluster. For each node, recalculate the distance between the node and all cluster centers using Euclidean distance formula and allocate the closest one.
+3.	Repeat the above steps till no point switches clusters.
+At Fig. 1a, there are given set of sensor nodes and their (x, y) location information and sensor nodes will be divided into three clusters. At Fig. 1a, the sensor nodes and their location  information  are  A(16,15),  B(23,32),  C(11,46),  D(14,58),  E(45,60),   F(33,17),
+G(63,33), H(25,50), I(53,47), J(50,20), N(33,41) and O(8,30). These points are used to
+calculate distance using Euclidean distance formula. Then, three points are chosen in different place. In this case, the density of nodes is not high and initial points should not be chosen to close each other. In Fig. 1a, these points are selected at K(9,23), L(60,24) and M(30,60). For each node, the distance between the node and initial cluster center is calculated. When the closest one is found, the node is assigned to this center. Figure 1b shows that nodes are assigned to closest center. Nodes are assigned to the closest cluster centers. Three different clusters are bordered with line. At this point initial clusters are formed. As described above these calculations are repeated until no cluster centers or members switch the cluster. The final result of clustering is shown in Fig. 1e. Diamond shaped squares show cluster centers. Those centers will be data gathering points for the mobile sink in data gathering phase. Figure 2 shows the pseudo code for clustering phase.
+
+	An Optimal Path for Mobile Sink
+
+Finding energy efficient traveling path for the mobile sink is one of NP problems. Inef- ficient path makes long data collection time. Cluster centers are determined as data gathering points. When the mobile sink approaches to a data gathering point, it will communicate with sensor nodes in the visited cluster and gets data from them by using Time Division Multiple Access (TDMA) method in one hop. During data-gathering tour of the mobile sink, it visits the centers of each cluster. For instance, let DGP = {DGP1, DGP2, DGP3… DGPn} represent a set of data gathering points. Then, data gathering tour  of the mobile sink can be designated as below.
+BS ! DGP1 ! DGP2 ! ••• ! DGPn ! BS
+To find an efficient data gathering tour, graph theory is used. Let’s assume that given  G = (V, U) graph, V-set of vertices represents the data gathering points, U-set of edges which are paths connecting two data gathering points. In Fig. 3a, vertices A, B, C, D, E, F and G are data gathering points and edges such as AB = 84.01, BE = 65.19, and etc., are paths connecting two data gathering points. The base station is taken as starting point. It is required to find minimum weighted cycle that goes through all graph nodes.
+ 
+
+ 
+
+Fig. 1 Clustering phase. a Initial cluster centers. b Nodes are assigned to closest center. c Cluster centers move to new locations. d Nodes are merged to the closest center. e Final visiting point
+
+First, in weighted graph, minimum spanning tree (MST) is established. In MST, odd vertices are defined and originate minimum weight which matches them. By Euler’s Theory if a connected graph’s vertices are all of even degree, then it has an Euler circuit, otherwise it has none. After odd vertices are matched as Fig. 3b, in this resulting graph an Euler tour is found. List of vertices are created that represents Euler tour. As far as Euler tour crosses every edge exactly once without repeating, still in Euler cycle path might pass
+ 
+
+ 
+
+Fig. 2 Pseudo code for clustering
+
+through a vertex more than once. And also it does not give optimal solution for our data gathering tour. After Euler cycle is found, a Hamilton cycle is calculated by visiting vertices in order of created list. In Fig. 3b, solid edges represents MST, which are A ? C; C ? G; G ? B; C ? D; D ? F and F ? E. In MST, there are four odd vertexes: A, C, B and E. After they are defined, minimum weighted matching odd vertexes are added. New edges, which are E ? B and C ? A are drawn in dashed lines. Next step is to find the Euler tour and make a edge list which represents tour. In Fig. 3c, Euler tour is defined by
+
+
+Fig. 3 An optimal path for mobile sink. a Data gathering points and paths. b After finding MST and connecting odd degree nodes. c Final path for mobile sink
+ 
+
+arrow. It starts at node A and finishes at this node. The Euler tour to visit nodes is as follows:
+A ! C ! D ! F ! E ! B ! G ! A
+As discussed above, the Euler tour cannot be optimal path. In the last step a Hamilton cycle is found, which goes by every nodes of graph exactly once. In Fig. 3c, the optimal travel path for the mobile sink is shown after all calculations. In Fig. 4, pseudo code and symbols for calculating optimal path are given.
+
+	Execution of Data Gathering
+
+After sensor nodes are deployed, the mobile sink has performed clustering phase and saved the cluster centers as well as DGP = (DPG1, DGP2 … DGPk) data gathering points and    C = (C1, C2 … Ck) list of clusters on its memory. The mobile sink starts data gathering tour and moves along the defined path. When it gets data DGPi gathering point, it stops and broadcasts ‘Hello’ message to cluster members. This ‘Hello’ message contains ID numbers of cluster members. When the sensor nodes receive this message, they check the message. Whenever they find their ID number in the broadcast message, they send a confirmation message to the mobile sink and wait for response. This confirmation message contains ID of sensor nodes. If sensor nodes do not find their ID, they ignore the message. The mobile sink receives several confirmation messages from all nodes of a cluster. According to these confirmation messages, the mobile sink creates a TDMA schedule for the nodes in the cluster. In TDMA schedule, time slot is assigned for every node. When it receives the confirmation messages, the mobile sink sends back a TDMA schedule to sensor nodes. In TDMA slot times, sensor nodes send their data  to the mobile sink. If cluster consists of   m number of sensor nodes, TDMA schedule will have m slots, one for each node. As soon as the mobile sink finishes data gathering in one cluster, it can save them on its memory. The mobile sink moves towards to the next data gathering point on its path. After gathering data from all clusters, the mobile sink comes to the base station, uploads data and continues data gathering tour for the next round.
+
+
+5	Performance Evaluation and Simulation Results
+
+To evaluate performance, energy consumption of sensor nodes in the proposed method and other comparing methods are examined. Then extensive simulations with different number of clusters are conducted and the results of the proposed method with other existing mobile data gathering schemes are compared.
+
+	Simulation  Environment
+
+Several numbers of simulations are conducted and evaluated to verify their performance. The proposed method is analyzed with different number of clusters. For clustering, the number of clusters is defined by a user and the performance are tested for several cases. In the beginning of simulations, sensor nodes are divided into 4 clusters, which means k = 4. And the number of k is increased such as 7, 10, 12, 15, 18 and 20. The energy efficiency of a sensor network is analyzed for each case. Simulation parameters are given as Table 1. 100 nodes are dispersed in the network area, 250 m 9 250 m. Initial energy (Einit) of
+ 
+
+1.	foreach U	G.V
+2.	u.key = ∞; u.p = 0; r.key = 0
+3.	Q = G.V
+4.	while Q≠ 0
+5.	U = EXTRACT − MIN(Q)
+//1. Finding MST
+6.	foreach V	G.Ad j[U]
+7.	if V	Q and w(U, V) < v.key
+8.	v.p = U
+9.	v.key = w(U, V)
+10.	Output MST
+//2. Finding odd nodes and connect them
+11.	foreach V	MST
+12.	if v.odd[i] = 1
+13.	find mindistance(v.odd[i]) → v.odd[i + 1]
+14.	Begin
+15.	foreach V	G
+16.	if indegree(v) ! = outdegree(v)
+17.	return No Euler Tour
+18.	End
+//3. Build Euler tour
+19.	Tour=empty; Vlist=empty;
+20.	Pick any vertex V, insert V into Vlist
+21.	while Vlist != empty
+22.	V = remove from Vlist
+23.	C=empty; // circle starting from V
+24.	while out-degree(v)>0
+25.	add V to C
+26.	Pick a vertex U on adjacent list of V
+27.	if out-degree(V)>0
+28.	insert V into Vlist
+29.	End
+30.	V = U
+31.	End
+32.	merge C to Tour
+33.	End
+34.	return Tour
+35.	find Hamilton path
+36.	end
+(a)
+(b)
+
+Fig. 4 Pseudo code for calculating optimal path of mobile sink. a Pseudo code. b Symbols
+ 
+
+sensor nodes is 1 Joule. For the simulations, network simulator 2 (NS-2) has been used. In the simulation environment, 802.11ad MAC protocol, a wireless channel models are used. In Fig. 5, the network is divided into 9 clusters and the trajectory for the data gathering tour is shown.
+
+	Energy Efficiency
+
+In WSNs, the long distance transmission scheme is inefficient since sensor nodes have limited energy source. In other works [14, 17, 18, 25], considerable amount of energy is consumed by cluster heads. According to the energy model (1), CH (Cluster Head) con- sumes ECH amount of energy in one round. This energy can be calculated as Eq. (3).
+ECH  ¼ EMNtoCH þ ECHtoBS	ð3Þ
+EMNtoCH ¼ m m ðEelec m kÞ	ð4Þ
+
+ 
+ECHtoBS ¼ m m ðk m Eelec þ eamp m k m d2
+ 
+Þ	ð5Þ
+ 
+where m is the number of member nodes in one cluster. ECHtoBS is energy used by a CH to send data of member nodes in a cluster to the base station and EMNtoCH is energy used by a CH to receive data of member nodes.
+One of the distinct points of the proposed method is intra-cluster communication. When cluster head is closer to cluster border, the worst case of the clustering algorithms must be considered. Nodes which are positioned the opposite side of the cluster spend more energy to communicate with their cluster head. In proposed method this kind of shortage of clustering is improved by visiting the mobile sink to the cluster center. Energy con- sumption of nodes is reduced by avoiding use of CHs. Alternatively, the mobile sink is used as a CH for every cluster in network. All sensor nodes spend their energy to sense and to communicate with the mobile sink. The amount energy used by sensor nodes in one round is calculated by (1) and (2) formulas.
+
+
+
+Fig. 5 View of scenario within 9 clusters
+ 
+
+If there are NCH numbers of CHs in the proposed method, Eround energy can be saved in every data gathering round.
+ 
+Eround ¼
+ 
+m
+
+
+i¼1
+ 
+ðNCHi m ECHi m DiÞ	ð6Þ
+ 
+where m is the number of member nodes in a cluster. Di is the ratio of distance difference between the general Cluster Head’s position and our intra Cluster Head’s position at node i.
+
+	Optimal Cluster Numbers
+
+Figure 6 shows the network lifetime with different numbers of clusters in network. First, when there are 4 clusters, the network lifetime is estimated as 45 rounds. Afterwards the number of clusters increases to 7 and the network lifetime increases to 4 more rounds and operates 49 rounds. As the cluster number increases, the size of cluster decreases. As the distance between the mobile sink and sensor nodes reduces, the energy consumption is decreased and the network lifetime is prolonged. In Fig. 6, the network lifetime is increased to 20% when sensor nodes are divided into from 4 clusters to 15 clusters. When the number of cluster is given 15, 18 and 20, simulation results show the same performance.
+Figure 6 shows the dead rate of sensor nodes. Results are taken after the first node runs out of energy in all cases. Figure 7 shows the dead node rates for clustering method. After the first dead node is found in the network, this round is considered as the first round for calculating dead nodes rate. For instances, in case of 4 clusters, the first node dies at 37th round. After the first dead node, simulation runs 8 more rounds and it lasts to 45 rounds. At 7 clusters, the dead node rate increases fast and all nodes become unavailable. It means that all sensor nodes use their energy efficiently and die at roughly at same time. The best result is shown when the network is divided into 7 clusters. In this case, the first node dies at 44th round and after 6 rounds all nodes runs out of energy.
+By analyzing above results, dividing sensor nodes into more clusters prolongs the network lifetime when the proposed method is applied. When nodes are partitioned into 15 clusters, the best performance is obtained. But data gathering tour is extended as the number of clusters is increased.
+
+
+
+
+
+
+Fig. 6 Number of clusters and rounds
+ 
+
+ 
+
+Fig. 7 Dead node rates with different numbers of k
+
+	Comparision with Other Works
+
+Next, the proposed method is compared with related works for the mobile sink and clustering method. Figure 8 shows the energy dissipation of sensor networks in related works and the proposed method. The proposed method outperforms other methods in the energy consumption manner and prolongs the lifetime of the network. Compared with MS at Edge in Fig. 8 [16], the proposed method runs 18 more rounds. Compared with EEMSRA and MSRP, the network lifetime is increased to 45.9 and 30% respectively. The reason is that cluster heads of all other works are used to gather data inside clusters. As discussed above, the energy dissipation of cluster heads impacts operation lifetime of networks. The network lifetime is increased to 20% when sensor nodes are divided into from 4 clusters to 15 clusters
+In the MS at Edge, when the trajectory of the mobile sink is defined outside of the network, cluster head nodes near the center of networks deplete more energy as member nodes send data to the mobile sink. In case of MS Inside in Fig. 8, it shows low
+
+
+Fig. 8 Energy consumption of network over rounds
+ 
+
+ 
+
+Fig. 9 Number of the live nodes
+
+
+Fig. 10 Ratio of dead nodes
+
+performance, since the trajectory of the mobile sink is static and cluster heads located near the border of network uses extra energy to communicate with the mobile sink. In case of EEMSRA and MSRP, communications between cluster heads and the mobile sink and intra-cluster communication consume noticeable amount of energy. The proposed method gives advantages to save extra energy burden by sensor nodes directly. As discussed above, Fig. 8 shows that intra-cluster communication gains energy saving when the mobile sink visits the center of clusters. Figure 9 shows the comparisons of the number of live nodes in five previous works. The proposed method shows stable result. Figure 10 shows the number of dead nodes. In the proposed method, the first sensor node runs out of energy at
+ 
+
+47th round, but all sensor nodes are dead in other related works. MSRP shows close result to the proposed work.
+
+
+6	Conclusion
+
+In this paper, This paper presents optimal visiting points and a data gathering path for mobile sinks in WSNs and the proposed method extends and balances the energy con- sumption of sensor nodes in WSNs. For the mobile sink, an optimal traveling path is found based on cluster centers to improve data gathering tour. The proposed data gathering method extends the network lifetime of sensor nodes and improves the operation time of sensor networks by collecting data directly at the center of clusters. The performance of the optimized power management method is evaluated with different number of clusters. Simulation results show that proposed method is very efficient for the energy consumption and the network lifetime.
+
+Acknowledgements This work was supported by the 2015 Yeungnam University Research Grant.
+
+Open Access This article is distributed under the terms of the Creative Commons Attribution 4.0 Inter- national License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made.
+
+
+
+References
+
+1.	Alyildiz, I., Weilian, S., Yogesh, S., & Cayirci, E. (2002). A survey on wireless sensor networks.
+Computer Networks, 38(4), 393–422.
+2.	Rocha, A., Pirmez, L., Delicato, F., Lemos, E., Santos, I., Gomes, D., & De Souza, J. (2012). WSNs clustering based on semantic neighbourhood relationships. Computer Networks Journal, 56(5), 1627–1645.
+3.	Huiyong, W., Jingyang, W., & Min, H. (2013). Building a smart home system with WSN and service robot. In Proceedings of 2013 fifth conference on measuring technology and automation.
+4.	KuA˚ akowski, P., Calle, E., & Marzo, J. L. (2013). Performance study of wireless sensor and actuator networks in forest fire scenarios. International Journal of Communication Systems, 26(4), 515–529.
+5.	Ying, L., Huan, Q., & Weiqun, L. (2013). Load-balanced clustering algorithm with distributed self- organization for wireless sensor networks. IEEE Sensors Journal, 13(5), 1498–1506.
+6.	Heinzelman, W., Balakrishnan, H., & Chandrakasan, A. (2000). Low energy adaptive clustering hier- archy. In Proceedings of Hawaii international conference on system science.
+7.	Shah, R. C., Roy, S., Jain, S., Brunette, W. (2003). Data mules: Modeling a three-tier architecture for sparse sensor networks. In Proceedings of IEEE workshop on sensor network protocols and applica- tions (SNPA).
+8.	Chen, T., Chen, T., & Wu, P. (2011). On data collection using mobile robot in wireless sensor networks.
+IEEE Transactions on Systems, Man, and Cybernetics-Part A: Systems and Humans, 41(6), 1213–1224.
+9.	Zhao, M., Ma, M., & Yang, Y. (2008). Mobile data gathering with space-division multiple access in wireless sensor network. In: Proceedings of 27th IEEE INFOCOM.
+10.	Somasundara, A., Ramamoorthy, A., & Srivastava, M. (2007). Mobile element scheduling with dynamic deadlines. IEEE Transactions on Mobile Computing, 6(4), 395–410.
+11.	Ma, M., & Yang, Y. (2008). Data gathering in wireless sensor networks with mobile collectors. In
+Proceedings of IEEE international symposium parallel and distributed processing.
+12.	Kusy, B., Lee, H., Wicke, M., Milosavljevic, N., & Guibas, L. (2009). Predictive QoS routing to mobile sinks in wireless sensor networks. In Proceedings of international conference information processing in sensor networks.
+13.	Ma, M., & Yang, Y. (2007). SenCar: an energy-efficient data gathering mechanism for large-scale multihop sensor networks. IEEE Transactions and Distributed Systems, 18(10), 1476–1488.
+ 
+
+14.	Lei, Sh, Baoxian, Z., Hussein, T. M., & Jian, M. (2013). DDRP: An efficient data-driven routing protocol for wireless sensor networks with mobile sinks. International Journal of Communication Systems, 26(10), 1341–1355.
+15.	Zhao, M., & Yang, Y. (2012). Bounded relay hop data gathering in wireless sensor networks. IEEE Transactions on Computers, 61(2), 265–277.
+16.	Wang, J., Yang, X., Ma, T., Wu, M., & Kim, J.-U. (2012). An energy-efficient competitive clustering algorithm for wireless sensor networks using mobile sink. International Journal of Grid and Distributed Computing, 5(4), 79–92.
+17.	Wang, J., Yin, Y., Kim, J., Lee, S., & Lai, C. (2012). An mobile-sink based energy-efficient clustering algorithm for wireless sensor networks. In 2012 IEEE 12th international conference on computer and information technology.
+18.	Yuan, X., & Zhang R. (2011). An energy-efficient mobile sink routing algorithm for wireless sensor networks. In Wireless communications, networking and mobile computing (WiCOM), 2011 7th international conference.
+19.	Danpu, L., Kailin, Z., & Jie, D. (2013). Energy-efficient transmission scheme for mobile data gathering in wireless sensor networks. China Communications, 10(3), 114–123.
+20.	Konstantopolous, C., Pantziou, G., Gavalas, D., Mpitziopoulos, A., & Mamalis, B. (2012). A ren- dezvous-based approach enabling energy-efficient sensory data collection with mobile sinks. IEEE Transactions on Parallel and Distributed Systems, 23(5), 809–817.
+21.	Bai, F., Munasinghe, K., & Jamalipour, A. (2012). A novel information acquisition technique for mobile-assisted wireless sensor networks. IEEE Transactions on Vehicular Technology, 61(4), 1752–1761.
+22.	Ma, M., Yang, Y., & Zhao, M. (2013). Tour planning for mobile data gathering mechanisms in wireless sensor networks. IEEE Transactions on Vehicular Technology, 62(4), 1472–1483.
+23.	Peiravi, A., Mashhadi, H., & Javadi, S. (2013). An optimal energy-efficient clustering method in wireless sensor networks using multi-objective genetic algorithm. International Journal of Communi- cation Systems, 26(1), 114–126.
+24.	Thomas, H., Charles, E., Ronald, L., & Clifford, S. (2009). Introduction to algorithms (3rd ed.). Cambridge: The MIT Press.
+25.	Nazir, B., & Hasbullah, H. (2010). Mobile sink based routing protocol (MSRP) for prolonging network lifetime in clustered wireless sensor network. In 2010 International conference on computer applica- tions and industrial electronics (ICCAIE 2010).
+
+Ilkyu Ha was born in Daegu, Republic of Korea, in 1966. He received the B.S. in Computer Engineering in 1992. And he received Master Degree and Ph.D. in Computer Education and Computer Engineering from Yeungnam University of Korea, in 2001 and 2003 respectively. From 1992 to 1995, he was a Software Developer at Financial Supervisory Service of Korea. From 2002 to 2015, he was with the Computer Engineering Department in Yeungnam University of Korea as a visiting Professor and a senior researcher. He joined the Depart- ment of Computer Engineering in Kyungil University as a faculty member in 2015. His research interests include Wireless Sensor Net- works, Wireless Body Area Networks, Data Mining, and Social Net- work Analysis. He is a member of the IEEE.
+ 
+
+Mamurjon Djuraev He was born in Uzbekistan. He graduated from  the Uzbekistan Tashkent University in 2010, his major was informa- tion and information technology. He received Master Degree in Computer Engineering from Yeungnam University, Korea in 2014. Currently he works as a researcher at Forwiz system in Daegu, Korea. His research interests include Sensor Network, Android operating system, and Embedded system.
+
+
+
+
+
+
+
+
+
+
+Byoungchul Ahn was born in Daegu, Republic of Korea. He received the B.S. in Electronic Engineering Department, Yeungnam University, Korea, in 1976. And he received Master Degree and Ph.D. in Electrical and Computer Engineering Department, Oregon State University in 1987 and 1989 respectively. From 1976 to 1984, he worked for Agency for Defense Development of Korea as a researcher. From 1989 to 1992, he was a senior research fellow at Samsung Electronics. Currently, he is a faculty member in Computer Engineering Depart- ment of Yeungnam University. His research interests include Wireless Sensor Networks, Embedded Systems, Real-time Operating System, and Multimedia Processing.
