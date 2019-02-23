@@ -3,6 +3,25 @@
 
 using namespace std;
 
+
+
+float energyamplitude=70;
+
+
+
+//"energy amplitude=70PJ/bit/m2"
+//float Eamp=50;
+float Eelec=50;
+float totalenergy=2000000000;
+
+
+
+float packetsize =1500;
+
+float channelcapacity=34;
+//cout<<"Channel capacity=34"<<endl;
+
+float lengthofchannel=10;
 int maxtsp(int graph[][V],int s)
 {
 
@@ -125,8 +144,16 @@ int r1,r2,r3,r4,r5;
 cout<<"Enter radius of the  the sensors"<<endl;
 cin>>r1>>r2>>r3>>r4;
 int s1,s2,s3,s4,s5;
+
 cout<<"Enter information rate of the  the sensors"<<endl;
 cin>>s1>>s2>>s3>>s4;
+float e1,e2,e3,e4;
+cout<<"Energy information for 1st cluster sensors"<<endl;
+cin>>e1>>e2>>e3>>e4;
+float e5,e6,e7,e8,e9;
+cout<<"Energy information of 2nd cluster sensors"<<endl;
+cin>>e5>>e6>>e7>>e8;
+
 
 int b1,b2,b3,b4;
 b1=r1*s1;
@@ -156,7 +183,8 @@ int netb1=( b11+b21+b31+b41)/4;
 
 cout<<"average floating point constant first cluster"<<netb<<endl;
 cout<<"average floating point constant second cluster"<<netb1<<endl;
-
+cout<<"Initial energy of coolector"<<endl;
+cout<<totalenergy<<endl;
 cout<<"Time taken for collector1 to go to cluster1"<<endl;
 int time1=5;
 cout<<time1<<endl;
@@ -188,7 +216,8 @@ cout<<maxtspval<<" "<<tspval<<endl;
 int i=0;
 
 
-
+int maxradius=100;
+int minradius=1;
 int j,l;
  int g[V][V];
  for(i=0;i<V;i++)
@@ -220,10 +249,16 @@ int g1[V][V];
  }
 
 
+i=0;
+int lambda=0;
+while(tspval < maxtspval   ||  maxtspval2>tspval2 || energyamplitude>=0||totalenergy>=0 || e1>=0 ||e2>=0||e3>=0||e4>=0 )
+{
+    lambda++;
+    cout<<"------"<<endl;
+    cout<<"Analysis"<<endl;
 
-while(tspval < maxtspval   ||  maxtspval2>tspval2)
-{       cout<<i<<"iteration"<<endl;
-    i++;
+     cout<<lambda<<" iteration"<<endl;
+
  int m= tspval;
 netb+=8/8;
 r1=netb/s1;
@@ -237,6 +272,9 @@ r21=netb/s21;
 r31=netb/s31;
 r41=netb/s41;
 
+cout<<"-----"<<endl;
+cout<<"Radius changes"<<endl;
+
 cout<<"Radius change first cluter"<<endl;
 cout<<r1<<" "<<r2<<" "<<r3<<" "<<r4<<endl;
 cout<<"Information source change first cluster"<<endl;
@@ -248,6 +286,27 @@ cout<<r11<<" "<<r21<<" "<<r31<<" "<<r41<<endl;
 cout<<"Information source change second cluster"<<endl;
 
 cout<<s11<<" "<<s21<<" "<<s31<<" "<<s41<<endl;
+
+cout<<"----"<<endl;
+cout<<"Energy loss in the sensors"<<endl;
+cout<<"Energy loss of the first cluster sources"<<endl;
+e1-=0.35;
+e2-=0.50;
+e3-=0.42;
+e4-=0.21;
+
+
+cout<<e1<<" "<<e2<<" "<<e3<<" "<<e4<<" "<<endl;
+cout<<"Energy loss of the second cluster sources"<<endl;
+
+e5-=0.35;
+e6-=0.50;
+e7-=0.42;
+e8-=0.21;
+
+cout<<e5<<" "<<e6<<" "<<e7<<" "<<e8<<" "<<endl;
+
+cout<<"-----"<<endl;
 g1[0][1]+=(int)(4/s1 + 4/s2);
 g1[0][2]+=(int)(4/s1 + 4/s3);
 g1[0][3]+=(int)(4/s1 + 4/s4);
@@ -317,8 +376,9 @@ cout<<"Minimum information rate in cluster2"<<endl;
 cout<<mini1<<endl;
 
 int s=0;
-
-cout<<"tsp in ith iteration "<<tsp(g,0)<<endl;
+cout<<"-----"<<endl;
+cout<<"TSP module"<<endl;
+cout<<"tsp in "<<i<<"th iteration "<<tsp(g,0)<<endl;
 
 tspval=tsp(g,0);
 tspval2=tsp(g1,0);
@@ -332,14 +392,30 @@ cout<<"Time for 1 iteration in cluster one"<<endl;
 cout<<tspval<<endl;
 cout<<"Time for1 iteration in cluster two"<<endl;
 cout<<tspval2<<endl;
+cout<<"------"<<endl;
 
+cout<<"-------"<<endl;
+cout<<"Energy calculation of the collector"<<endl;
+totalenergy-= (Eelec + energyamplitude*r1*r1 + energyamplitude*r2*r2 + energyamplitude*r3*r3 + energyamplitude*r4*r4);
+cout<<"Energy loss in ith iteration"<<endl;
+cout<<abs(totalenergy)<<endl;
+cout<<"Energy calculation of the collector afer second cluser"<<endl;
+totalenergy-= (Eelec + energyamplitude*r11*r11 + energyamplitude*r21*r21 + energyamplitude*r31*r31 + energyamplitude*r41*r41);
+cout<<"Energy loss in ith iteration"<<endl;
+cout<<abs(totalenergy)<<endl;
+cout<<"-------"<<endl;
 
+cout<<"-----"<<endl;
+cout<<"Time Analysis"<<endl;
 int total_time=tspval+tspval2;
 cout<<"Total time loss"<<endl;
 cout<<total_time<<endl;
-   if(maxtspval<=tspval || maxtspval2<=tspval2)
-  {
 
+
+
+   if(maxtspval<=tspval || maxtspval2<=tspval2|| e1<0 || e2<0||e3<0 ||e4<0)
+    {
+    cout<<"End of iterations"<<endl;
       break;
   }
 
