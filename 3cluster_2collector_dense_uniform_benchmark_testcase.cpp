@@ -639,17 +639,17 @@ g[3][1]+=(int)(delta/s4 + delta/s2);
 g[3][2]+=(int)(delta/s4 + delta/s3);
 
 g2[0][1]+=(int)(delta3/s111 + delta3/s211);
-g1[0][2]+=(int)(delta3/s111 + delta3/s311);
-g1[0][3]+=(int)(delta3/s111 + delta3/s411);
-g1[1][0]+=(int)(delta3/s111 + delta3/s211);
-g1[1][2]+=(int)(delta3/s211 + delta3/s311);
-g1[1][3]+=(int)(delta3/s211 + delta3/s411);
-g1[2][0]+=(int)(delta3/s311 + delta3/s111);
-g1[2][1]+=(int)(delta3/s311 + delta3/s211);
-g1[2][3]+=(int)(delta3/s311 + delta3/s411);
-g1[3][0]+=(int)(delta3/s411 + delta3/s111);
-g1[3][1]+=(int)(delta3/s411 + delta3/s211);
-g1[3][2]+=(int)(delta3/s411 + delta3/s311);
+g2[0][2]+=(int)(delta3/s111 + delta3/s311);
+g2[0][3]+=(int)(delta3/s111 + delta3/s411);
+g2[1][0]+=(int)(delta3/s111 + delta3/s211);
+g2[1][2]+=(int)(delta3/s211 + delta3/s311);
+g2[1][3]+=(int)(delta3/s211 + delta3/s411);
+g2[2][0]+=(int)(delta3/s311 + delta3/s111);
+g2[2][1]+=(int)(delta3/s311 + delta3/s211);
+g2[2][3]+=(int)(delta3/s311 + delta3/s411);
+g2[3][0]+=(int)(delta3/s411 + delta3/s111);
+g2[3][1]+=(int)(delta3/s411 + delta3/s211);
+g2[3][2]+=(int)(delta3/s411 + delta3/s311);
 
 
 
@@ -1003,17 +1003,17 @@ g[3][1]+=(int)(delta/s4 + delta/s2);
 g[3][2]+=(int)(delta/s4 + delta/s3);
 
 g2[0][1]+=(int)(delta3/s111 + delta3/s211);
-g1[0][2]+=(int)(delta3/s111 + delta3/s311);
-g1[0][3]+=(int)(delta3/s111 + delta3/s411);
-g1[1][0]+=(int)(delta3/s111 + delta3/s211);
-g1[1][2]+=(int)(delta3/s211 + delta3/s311);
-g1[1][3]+=(int)(delta3/s211 + delta3/s411);
-g1[2][0]+=(int)(delta3/s311 + delta3/s111);
-g1[2][1]+=(int)(delta3/s311 + delta3/s211);
-g1[2][3]+=(int)(delta3/s311 + delta3/s411);
-g1[3][0]+=(int)(delta3/s411 + delta3/s111);
-g1[3][1]+=(int)(delta3/s411 + delta3/s211);
-g1[3][2]+=(int)(delta3/s411 + delta3/s311);
+g2[0][2]+=(int)(delta3/s111 + delta3/s311);
+g2[0][3]+=(int)(delta3/s111 + delta3/s411);
+g2[1][0]+=(int)(delta3/s111 + delta3/s211);
+g2[1][2]+=(int)(delta3/s211 + delta3/s311);
+g2[1][3]+=(int)(delta3/s211 + delta3/s411);
+g2[2][0]+=(int)(delta3/s311 + delta3/s111);
+g2[2][1]+=(int)(delta3/s311 + delta3/s211);
+g2[2][3]+=(int)(delta3/s311 + delta3/s411);
+g2[3][0]+=(int)(delta3/s411 + delta3/s111);
+g2[3][1]+=(int)(delta3/s411 + delta3/s211);
+g2[3][2]+=(int)(delta3/s411 + delta3/s311);
 
 
 
